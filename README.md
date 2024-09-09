@@ -40,3 +40,9 @@ Also developers get a lot of metrics and charts inside of the GUI.
    1. **Availability**: The service has to provide a high level of SLA (e. g. 99.9%) and be reachable/available as much time as possible, even during pipeline modifications.  
    2. **Recoverability**: The system must be able to restore to a functional state after failures within no longer period than. Regular back ups of configurations, results of currency operations must be provided, too. No transactions should be lost\! Balance of virtual currency should be equal to real money spent on it.  
 7. **Observability** For maintainers debug logging and tracing must be provided. For admins, dashboards, logs should be provided.
+
+## Architecture
+
+### Draft
+
+![Architecture](Images/Architecture1.svg)
