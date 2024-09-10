@@ -1,5 +1,9 @@
 # Summary
 
+## Video
+
+https://drive.google.com/file/d/1BKaFoLCknHkypQQxjtMpRloaT6_qiLam/view?usp=sharing
+
 ## Problem
 
 There are no open-source plug-and-play solutions for virtual currencies on the market. Developers have to create their own systems from scratch and deal with reliability, performance, law and other problems. This significantly increases development cost.
