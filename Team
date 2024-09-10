@@ -2,6 +2,9 @@ Team name: DropTableUsers.
 
 Members:
 1. Фёдоров Даниил Юрьевич - Backend. 
-2. Сергеев Илья Иванович - Frontend Web GUI.
-3. Штанов Андрей Николаевич - Frontend SDK + Testing.
+2. Сергеев Илья Иванович - Fullstack Web GUI.
+3. Штанов Андрей Николаевич - Game Engine SDK + Testing.
 4. Даранан Даниил Дмитриевич - Backend/Infrastructure.
+
+5. (need extra) DevOps - Big infrastructure based on kuber8.
+6. (need extra) BackEnd - BackEnd Plugin Writer.
