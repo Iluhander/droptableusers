@@ -3,6 +3,7 @@ class Queen:
     self.row = row
     self.col = col
 
+# Subset of available cells
 class AvailableCells:
   def __init__(self):
     self.list = []
@@ -19,6 +20,7 @@ class AvailableCells:
 
     return a
   
+  # Retrieves a subset of available cells for a new queen from a previous set of available cells
   def deriveWithNewQueen(self, q):
     cellsCp = AvailableCells.copy(self)
 
@@ -32,6 +34,7 @@ class AvailableCells:
 
     return cellsCp
 
+# A node in the solutions tree.
 class SolutionNode:
   def __init__(self, q, available):
     self.q = q
@@ -48,16 +51,16 @@ class SolutionNode:
       self.children.append(SolutionNode(Queen(it[0], it[1]), self.available))
       self.children[-1].build()
 
-  def traverse(self, trace):
+  def traverse(self, trace, log):
     if len(self.available.list) == 0 and len(trace) < 7:
       return
     
     if len(trace) < 7:
       for ch in self.children:
-        ch.traverse(trace + [self.q])
+        ch.traverse(trace + [self.q], log)
     
     if len(self.available.list) == 0:
-      print(list(map(lambda it: (it.row, it.col), trace + [self.q])))
+      log(list(map(lambda it: (it.row, it.col), trace + [self.q])))
 
 
 def traverse(curRow = 0):
@@ -66,9 +69,11 @@ def traverse(curRow = 0):
   nodes = []
 
   for i in range(0, 8):
+    log = lambda arr: print(arr)
+
     nodes.append(SolutionNode(Queen(curRow, i), base))
     nodes[-1].build()
-    nodes[-1].traverse([])
+    nodes[-1].traverse([], log)
 
 print("Possible solutions:")
 traverse()
