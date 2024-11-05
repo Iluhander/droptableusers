@@ -25,7 +25,7 @@ class AvailableCells:
     i = 0
     while i < len(cellsCp.list):
       curIt = cellsCp.list[i]
-      if curIt[0] == q.row or curIt[1] == q.col or (q.row - curIt[0] == q.col - curIt[1]):
+      if curIt[0] == q.row or curIt[1] == q.col or (q.row - curIt[0] == q.col - curIt[1]) or (q.row - curIt[0] == curIt[1] - q.col):
         del cellsCp.list[i]
       else:
         i += 1
