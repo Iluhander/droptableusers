@@ -39,20 +39,25 @@ class SolutionNode:
     self.children = []
 
   def build(self):
+    prevRow = -1
     for it in self.available.list:
+      if prevRow >= 0 and it[0] > prevRow:
+        break
+      prevRow = it[0]
+
       self.children.append(SolutionNode(Queen(it[0], it[1]), self.available))
       self.children[-1].build()
 
   def traverse(self, trace):
-    if len(self.available.list) == 0 and len(trace) < 8:
+    if len(self.available.list) == 0 and len(trace) < 7:
       return
     
-    if len(trace) < 8:
+    if len(trace) < 7:
       for ch in self.children:
         ch.traverse(trace + [self.q])
     
     if len(self.available.list) == 0:
-      print(trace)
+      print(list(map(lambda it: (it.row, it.col), trace + [self.q])))
 
 
 def traverse(curRow = 0):
@@ -63,7 +68,6 @@ def traverse(curRow = 0):
   for i in range(0, 8):
     nodes.append(SolutionNode(Queen(curRow, i), base))
     nodes[-1].build()
-    print(f"Subtree for first queen in {curRow} {i} built")
     nodes[-1].traverse([])
 
 print("Possible solutions:")
