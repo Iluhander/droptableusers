@@ -1,0 +1,63 @@
+openapi: 3.1.0
+info:
+  version: 1.0.0
+  title: ML Web Editor API
+  contact:
+    name: Contact the "; drop table users" team
+    email: iisergeev_2@edu.hse.ru
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+externalDocs:
+  description: "Find out the MLDev docs."
+  url: 'https://gitlab.com/mlrep/mldev/-/wikis/new-format-of-experiment.yml-configuration#step5'
+paths:
+  '/users/{username}':
+    $ref: 'paths/users_{username}.yaml'
+  '/user':
+    $ref: 'paths/user.yaml'
+  '/user/list':
+    $ref: 'paths/user-status.yaml'
+  /pathItem:
+    $ref: paths/pathItem.yaml
+  /pathItemWithExamples:
+    $ref: paths/pathItemWithExamples.yaml
+  '/echo':
+    $ref: 'paths/echo.yaml'
+components:
+  securitySchemes:
+    main_auth:
+      description: "Example description text of the OAuth2 scheme."
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: http://example.com/api/oauth/dialog
+          scopes:
+            'read:users': read user info
+            'write:users': modify or remove users
+    api_key:
+      description: "Example description text of the API key scheme."
+      type: apiKey
+      in: header
+      name: api_key
+    basic_auth:
+      type: http
+      scheme: basic
+webhooks:
+  userInfo:
+    post:
+      summary: New user webhook
+      description: "Information about a new user in the system."
+      operationId: userInfo
+      tags:
+        - Info
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: 'components/schemas/User.yaml'
+      responses:
+        '200':
+          description: "Successfully retrieved information about a new user."
+      security:
+        - api_key: []
