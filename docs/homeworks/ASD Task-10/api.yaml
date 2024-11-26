@@ -110,7 +110,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/TokenDto'
   /file:
-    post:
+    put:
       summary: Providing source code
       requestBody:
         content:
@@ -119,17 +119,17 @@ paths:
               $ref: '#/components/schemas/FileDataDto'
       responses:
         '200':
-          description: Tokens successfully provided
+          description: Source file successfully provided
     get:
       summary: Getting an updated source code
       parameters:
         - in: query
           name: id
-          description: plugin identifier
+          description: session id
           required: true
           schema:
             type: string
-            example: 0801a635-3dc9-4524-bdbc-1671d2bd2105
+            example: 801a635-3dc9-4524-bdbc-1671d2bd2105
       responses:
         '200':
           description: File successfuly retrieved
@@ -142,24 +142,12 @@ paths:
 
   /structure-info:
     post:
-      summary: Providing source code
+      summary: Gets the current expirement's structure
       requestBody:
         content:
           application/json:
             schema:
               type: string
-      responses:
-        '200':
-          description: Tokens successfully provided
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ExperimentDto'
-
-  /ExpirementStructure:
-    get:
-      summary: Gets the current expirement's structure
-      #description: Multiple status values can be provided with comma separated strings
       responses:
         '200':
           description: successful operation
