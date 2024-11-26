@@ -1,0 +1,129 @@
+openapi: 3.1.0
+info:
+  version: 1.0.0
+  title: ML Project File System API
+  contact:
+    name: Contact the "; drop table users" team
+    email: iisergeev_2@edu.hse.ru
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+externalDocs:
+  description: "Find out the MLDev docs."
+  url: 'https://gitlab.com/mlrep/mldev/-/wikis/new-format-of-experiment.yml-configuration#step5'
+components:
+  responses:
+    ClientError:
+      description: client error
+      content:
+        '*/*':
+          schema:
+            $ref: '#/components/schemas/ErrorDto'
+    ServerError:
+      description: server error
+      content:
+        '*/*':
+          schema:
+            $ref: '#/components/schemas/ErrorDto'
+  schemas:
+    ErrorDto:
+      type: object
+      description: error description
+      properties:
+        title:
+          type: string
+          description: error title
+          example: NullPointerException
+        description:
+          type: string
+          description: error description
+      required:
+        - title
+        - description
+    TokenDto:
+      type: object
+      description: A code's token
+      properties:
+        kind:
+          type: string
+        value:
+          type: string
+    ExperimentDto:
+      type: object
+      description: An experiment
+      properties:
+        pipelines:
+          type: array
+          items:
+            $ref: '#/components/schemas/PipelineDto'
+    PipelineDto:
+      type: object
+      description: An experiment's pipeline
+      properties:
+        stages:
+          type: array
+          items:
+            $ref: '#/components/schemas/StageDto'
+    StageDto:
+      type: object
+      description: A pipeline's stage
+      properties:
+        input:
+          type: array
+          items:
+            type: string
+        env:
+          type: array
+          items:
+            type: string
+        outputs:
+          type: array
+          items:
+            type: string
+        script:
+          type: string
+        monitoring:
+          type: array
+          items:
+            type: string
+    FileDataDto:
+      type: object
+      description: A file data
+      properties:
+        id:
+          type: string
+        path:
+          type: string
+        contents:
+          type: string
+paths:
+  /file:
+    put:
+      summary: Providing source code
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FileDataDto'
+      responses:
+        '200':
+          description: Source file successfully provided
+    get:
+      summary: Getting an updated source code
+      parameters:
+        - in: query
+          name: id
+          description: session id
+          required: true
+          schema:
+            type: string
+            example: 801a635-3dc9-4524-bdbc-1671d2bd2105
+      responses:
+        '200':
+          description: File successfuly retrieved
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FileDataDto'
