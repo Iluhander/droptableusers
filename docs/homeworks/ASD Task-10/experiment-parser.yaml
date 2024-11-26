@@ -89,17 +89,6 @@ components:
         contents:
           type: string
 paths:
-  /file:
-    put:
-      summary: Providing source code
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/FileDataDto'
-      responses:
-        '200':
-          description: Source file successfully provided
   /structure-info:
     post:
       summary: Gets the current expirement's structure
@@ -107,7 +96,7 @@ paths:
         content:
           application/json:
             schema:
-              type: string
+              $ref: '#/components/schemas/FileDataDto'
       responses:
         '200':
           description: successful operation
