@@ -72,6 +72,21 @@ paths:
               schema:
                 $ref: '#/components/schemas/ExperimentDto'
 
+  /ExpirementStructure:
+    get:
+      summary: Gets the current expirement's structure
+      #description: Multiple status values can be provided with comma separated strings
+      responses:
+        '200':
+          description: successful operation
+          content:
+            schema:
+              type: object
+              items:
+                $ref: '#/components/schemas/ExperimentDto'
+        '400':
+          description: error getting current expirement
+
 components:
   responses:
     ClientError:
