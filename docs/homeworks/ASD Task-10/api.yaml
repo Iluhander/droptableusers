@@ -12,7 +12,18 @@ externalDocs:
   description: "Find out the MLDev docs."
   url: 'https://gitlab.com/mlrep/mldev/-/wikis/new-format-of-experiment.yml-configuration#step5'
 paths:
-  '/users/{username}':
+  /tokens-info:
+    get:
+      summay: Getting code tokens
+    responses:
+      '200':
+        description: Tokens successfully retrieved
+        content:
+          '*/*':
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/TokenDto'
     $ref: 'paths/users_{username}.yaml'
   '/user':
     $ref: 'paths/user.yaml'
@@ -25,24 +36,93 @@ paths:
   '/echo':
     $ref: 'paths/echo.yaml'
 components:
-  securitySchemes:
-    main_auth:
-      description: "Example description text of the OAuth2 scheme."
-      type: oauth2
-      flows:
-        implicit:
-          authorizationUrl: http://example.com/api/oauth/dialog
-          scopes:
-            'read:users': read user info
-            'write:users': modify or remove users
-    api_key:
-      description: "Example description text of the API key scheme."
-      type: apiKey
-      in: header
-      name: api_key
-    basic_auth:
-      type: http
-      scheme: basic
+  responses:
+    ClientError:
+      description: client error
+      content:
+        '*/*':
+          schema:
+            $ref: '#/components/schemas/ErrorDto'
+    ServerError:
+      description: server error
+      content:
+        '*/*':
+          schema:
+            $ref: '#/components/schemas/ErrorDto'
+  schemas:
+    ErrorDto:
+      type: object
+      description: error description
+      properties:
+        title:
+          type: string
+          description: error title
+          example: NullPointerException
+        description:
+          type: string
+          description: error description
+      required:
+        - title
+        - description
+    TokenDto:
+      type: object
+      description: A code's token
+      properties:
+        kind:
+          type: string
+        value:
+          type: string
+    Experiment:
+      type: object
+      description: An experiment
+      properties:
+        stages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Pipeline'
+    Pipeline:
+      type: object
+      description: An experiment's pipeline
+      properties:
+        stages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Stage'
+    Stage:
+      type: object
+      description: A pipeline's stage
+      properties:
+        input:
+          type: array
+          items:
+            type: string
+        env:
+          type: array
+          items:
+            type: string
+        outputs:
+          type: array
+          items:
+            type: string
+        script:
+          type: string
+        monitoring:
+          type: array
+          items:
+            type: string
+    Stage:
+      type: object
+      description: A pipeline's stage
+      properties:
+        input:
+          type: string
+        env:
+          type: array
+          items:
+            type: string
+        output:
+          type: string
+          
 webhooks:
   userInfo:
     post:
