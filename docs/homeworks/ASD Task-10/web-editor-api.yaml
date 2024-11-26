@@ -52,7 +52,7 @@ components:
       type: object
       description: An experiment
       properties:
-        stages:
+        pipelines:
           type: array
           items:
             $ref: '#/components/schemas/PipelineDto'
