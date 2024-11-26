@@ -15,26 +15,62 @@ paths:
   /tokens-info:
     get:
       summay: Getting code tokens
-    responses:
-      '200':
-        description: Tokens successfully retrieved
+      responses:
+        '200':
+          description: Tokens successfully retrieved
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TokenDto'
+  /file:
+    post:
+      summay: Providing source code
+      requestBody:
         content:
-          '*/*':
+          application/json:
             schema:
-              type: array
-              items:
-                $ref: '#/components/schemas/TokenDto'
-    $ref: 'paths/users_{username}.yaml'
-  '/user':
-    $ref: 'paths/user.yaml'
-  '/user/list':
-    $ref: 'paths/user-status.yaml'
-  /pathItem:
-    $ref: paths/pathItem.yaml
-  /pathItemWithExamples:
-    $ref: paths/pathItemWithExamples.yaml
-  '/echo':
-    $ref: 'paths/echo.yaml'
+              $ref: '#/components/schemas/FileDataDto'
+      responses:
+        '200':
+          description: Tokens successfully provided
+    get:
+      summary: Getting an updated source code
+      parameters:
+        - in: path
+          name: id
+          description: plugin identifier
+          required: true
+          schema:
+            type: string
+            example: 0801a635-3dc9-4524-bdbc-1671d2bd2105
+      responses:
+        '200':
+          description: File successfuly retrieved
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FileDataDto'
+
+  /structure-info:
+    post:
+      summay: Providing source code
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+      responses:
+        '200':
+          description: Tokens successfully provided
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ExperimentDto'
+
 components:
   responses:
     ClientError:
@@ -72,7 +108,7 @@ components:
           type: string
         value:
           type: string
-    Experiment:
+    ExperimentDto:
       type: object
       description: An experiment
       properties:
@@ -80,7 +116,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Pipeline'
-    Pipeline:
+    PipelineDto:
       type: object
       description: An experiment's pipeline
       properties:
@@ -88,7 +124,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Stage'
-    Stage:
+    StageDto:
       type: object
       description: A pipeline's stage
       properties:
@@ -110,17 +146,15 @@ components:
           type: array
           items:
             type: string
-    Stage:
+    FileDataDto:
       type: object
-      description: A pipeline's stage
+      description: A file data
       properties:
-        input:
+        id:
           type: string
-        env:
-          type: array
-          items:
-            type: string
-        output:
+        path:
+          type: string
+        contents:
           type: string
           
 webhooks:
