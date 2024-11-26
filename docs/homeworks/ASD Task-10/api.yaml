@@ -80,10 +80,11 @@ paths:
         '200':
           description: successful operation
           content:
-            schema:
-              type: object
-              items:
-                $ref: '#/components/schemas/ExperimentDto'
+            '*/*':
+              schema:
+                type: object
+                items:
+                  $ref: '#/components/schemas/ExperimentDto'
         '400':
           description: error getting current expirement
 
