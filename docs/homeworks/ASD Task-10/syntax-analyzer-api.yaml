@@ -60,8 +60,13 @@ components:
           type: string
 paths:
   /tokens-info:
-    get:
+    post:
       summary: Getting code tokens
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FileDataDto'
       responses:
         '200':
           description: Tokens successfully retrieved
@@ -71,14 +76,3 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/TokenDto'
-  /file:
-    put:
-      summary: Providing source code
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/FileDataDto'
-      responses:
-        '200':
-          description: Source file successfully provided
