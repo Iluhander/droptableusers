@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: drop-table-users-deployment
+  namespace: droptableusers-project
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web-editor-for-experiments
+  template:
+    metadata:
+      labels:
+        app: web-editor-for-experiments
+    spec:
+      containers:
+      - name: web-editor
+        image: iluhander/web-editor:latest
+        ports:
+        - containerPort: 7557

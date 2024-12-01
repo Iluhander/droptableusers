@@ -1,3 +1,5 @@
-import RenderWebEditor from ".";
+import werender from "./werender";
 
-RenderWebEditor(document.getElementById('root') as HTMLElement);
+werender(document.getElementById('root') as HTMLElement);
+
+export default werender;

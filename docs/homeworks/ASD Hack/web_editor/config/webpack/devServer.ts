@@ -3,7 +3,7 @@ import { BuildDevOptions } from './types';
 
 export function deriveDevServer({ port }: BuildDevOptions): Configuration {
   return {
-    port: port ? port : 7431,
+    port: port ? port : 7437,
     open: true,
     historyApiFallback: true,
     proxy: [],
