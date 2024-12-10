@@ -1,0 +1,78 @@
+openapi: 3.1.0
+info:
+  version: 1.0.0
+  title: ML Experiment Syntax Analyzer API
+  contact:
+    name: Contact the "; drop table users" team
+    email: dyufyodrov@edu.hse.ru
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+externalDocs:
+  description: "Find out the MLDev docs."
+  url: 'https://gitlab.com/mlrep/mldev/-/wikis/new-format-of-experiment.yml-configuration#step5'
+components:
+  responses:
+    ClientError:
+      description: client error
+      content:
+        '*/*':
+          schema:
+            $ref: '#/components/schemas/ErrorDto'
+    ServerError:
+      description: server error
+      content:
+        '*/*':
+          schema:
+            $ref: '#/components/schemas/ErrorDto'
+  schemas:
+    ErrorDto:
+      type: object
+      description: error description
+      properties:
+        title:
+          type: string
+          description: error title
+          example: NullPointerException
+        description:
+          type: string
+          description: error description
+      required:
+        - title
+        - description
+    TokenDto:
+      type: object
+      description: A code's token
+      properties:
+        kind:
+          type: string
+        value:
+          type: string
+    FileDataDto:
+      type: object
+      description: A file data
+      properties:
+        id:
+          type: string
+        path:
+          type: string
+        contents:
+          type: string
+paths:
+  /tokens-info:
+    post:
+      summary: Getting code tokens
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FileDataDto'
+      responses:
+        '200':
+          description: Tokens successfully retrieved
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TokenDto'
