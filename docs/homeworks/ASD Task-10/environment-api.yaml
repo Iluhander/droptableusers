@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   version: 1.0.0
-  title: ML Experiment Structure Parser API
+  title: ML Experiment Visualizer API
   contact:
     name: Contact the "; drop table users" team
     email: dyufyodorov@edu.hse.ru
@@ -40,69 +40,60 @@ components:
       required:
         - title
         - description
-    ExperimentDto:
+    WebEditorChangeEventDto:
       type: object
-      description: An experiment
+      description: A symbol change event
       properties:
-        pipelines:
-          type: array
-          items:
-            $ref: '#/components/schemas/PipelineDto'
-    PipelineDto:
-      type: object
-      description: An experiment's pipeline
-      properties:
-        stages:
-          type: array
-          items:
-            $ref: '#/components/schemas/StageDto'
-    StageDto:
-      type: object
-      description: A pipeline's stage
-      properties:
-        input:
-          type: array
-          items:
-            type: string
-        env:
-          type: array
-          items:
-            type: string
-        outputs:
-          type: array
-          items:
-            type: string
-        script:
+        lineIndex:
+          type: integer
+        posIndex:
+          type: integer
+        symbolVal:
           type: string
-        monitoring:
-          type: array
-          items:
-            type: string
-    FileDataDto:
+    BusChangeEventDto:
       type: object
-      description: A file data
+      description: A file content change event
       properties:
-        id:
+        fileURL:
           type: string
-        path:
+        fileContentVal:
           type: string
-        contents:
+    CredentialsEventsDto:
+      type: object
+      description: A credentials change event
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+        fileURLPreffix:
           type: string
 paths:
-  /structure-info:
+  /publish:
     post:
-      summary: Gets the current expirement's structure
+      summary: Publish an event into the bus
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/FileDataDto'
+              oneOf:
+                - $ref: '#/components/schemas/BusChangeEventDto'
+                - $ref: '#/components/schemas/WebEditorChangeEventDto'
       responses:
         '200':
           description: successful operation
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ExperimentDto'
-        '400':
-          description: error getting current expirement
+        '500':
+          description: internal error
+  /subscribe:
+    post:
+      summary: Gets the current expirement's visualization
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExperimentDto'
+      responses:
+        '200':
+          description: successful operation
+        '500':
+          description: internal error

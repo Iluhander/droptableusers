@@ -1,10 +1,10 @@
 openapi: 3.1.0
 info:
   version: 1.0.0
-  title: ML Experiment Syntax Analyzer API
+  title: ML Experiment Visualizer API
   contact:
     name: Contact the "; drop table users" team
-    email: dyufyodrov@edu.hse.ru
+    email: dyufyodorov@edu.hse.ru
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
@@ -40,39 +40,48 @@ components:
       required:
         - title
         - description
-    TokenDto:
+    BusChangeEventDto:
       type: object
-      description: A code's token
+      description: A file content change event
       properties:
-        kind:
+        fileURL:
           type: string
-        value:
+        fileContentVal:
           type: string
-    FileDataDto:
+    CredentialsEventsDto:
       type: object
-      description: A file data
+      description: A credentials change event
       properties:
-        id:
+        username:
           type: string
-        path:
+        password:
           type: string
-        contents:
+        fileURLPreffix:
           type: string
 paths:
-  /tokens-info:
+  /file-change/receive:
     post:
-      summary: Getting code tokens
+      summary: Receive an event
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/FileDataDto'
+              $ref: '#/components/schemas/BusChangeEventDto'
       responses:
         '200':
-          description: Tokens successfully retrieved
-          content:
-            '*/*':
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/TokenDto'
+          description: successful operation
+        '500':
+          description: internal error
+  /credential-change/receive:
+    post:
+      summary: Receive a credentials event
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CredentialsEventsDto'
+      responses:
+        '200':
+          description: successful operation
+        '500':
+          description: internal error
