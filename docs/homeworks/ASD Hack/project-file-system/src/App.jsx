@@ -1,18 +1,22 @@
 import React, { useState } from 'lib-app/react';
-import { foo } from './ProjectFS';
+import './App.css';
 
-// For testing.
-const App = () => {
-    const [state, setState] = useState(1);
+export default function App() {
+  const [experimentFile, setExperimentFile] = useState('');
 
-    foo();
+  const handleFileContentChange = (event) => {
+    setExperimentFile(event.target.value);
+  };
 
-    return (
-        <div style={{ height: '100%' }}>
-            {state}
-            <button onClick={() => setState((v) => v + 1)}>Inc</button>
-        </div>
-    );
-};
-
-export default App;
+  return (
+    <div className="project-fs-container">
+      <h3>Experiment File Editor</h3>
+      <textarea
+        className="experiment-file-editor"
+        value={experimentFile}
+        onChange={handleFileContentChange}
+        placeholder="Enter your experiment file contents here..."
+      />
+    </div>
+  );
+}
