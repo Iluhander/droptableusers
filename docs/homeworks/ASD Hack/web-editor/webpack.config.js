@@ -1,16 +1,18 @@
 const { ModuleFederationPlugin } = require("@module-federation/enhanced");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
-const publicPath = process.env.WEB_EDITOR_URL ?? 'http://84.201.148.234/droptableusers-project/web_editor/';
-const libAppURL = process.env.LIB_APP_URL ?? 'http://84.201.148.234/droptableusers-project/lib_app';
-const visualizerURL = process.env.VISUALIZER_URL ?? 'http://84.201.148.234/droptableusers-project/visualizer';
+const isDev = true;
+const defaultURLs = {
+  libApp: isDev ? 'http://localhost:3000/' : 'http://84.201.148.234/droptableusers-project/lib_app/',
+  public: isDev ? 'http://localhost:3005/' : 'http://84.201.148.234/droptableusers-project/web_editor/',
+}
 
 module.exports = {
   entry: "./index.js",
   mode: "development",
   devtool: "hidden-source-map",
   output: {
-    publicPath,
+    publicPath: defaultURLs.public,
     clean: true,
   },
   cache: false,
@@ -54,7 +56,7 @@ module.exports = {
         "./WebEditor": "./src/WebEditor.jsx",
       },
       remotes: {
-        "lib-app": `lib_app@${libAppURL}/remoteEntry.js`,
+        "lib-app": `lib_app@${defaultURLs.libApp}remoteEntry.js`,
       },
     }),
     new HtmlWebpackPlugin({
