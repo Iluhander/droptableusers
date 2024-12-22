@@ -1,27 +1,14 @@
 import React from "lib-app/react";
 import WebEditor from "web-editor/WebEditor";
 import Visualizer from "visualizer/Visualizer";
-import ProjectFS from "project-fs/ProjectFS";
 
-import { EventBus, BusEvent } from '../../Bus/EventBus';
+import { BusEvent } from '../../Bus/EventBus';
 
 import './Main.css';
 
 const TeamName = '"; drop table users;';
 
-const bus = new EventBus();
-
-console.log(ProjectFS, 1);
-
 export default function MainPage () { 
-  React.useEffect(() => {
-    bus.subscribe((e) => {
-      if (e instanceof BusEvent) {
-        window.visualizer.setCode(e.fileVal);
-      }
-    })
-  }, []);
-  
   return (
     <div className="mainLayout">
       <div className="nav">
@@ -29,7 +16,7 @@ export default function MainPage () {
         <a className="teamName" href="https://github.com/dr0p-table-users/asd">By the {TeamName} team</a>
       </div>
       <div className="editorContainer">
-        <WebEditor onChange={(newVal) => bus.publish(new BusEvent("", newVal))} />
+        <WebEditor />
       </div>
       <div className="visualizerContainer">
         <Visualizer />

@@ -1,5 +1,5 @@
 import React, { useState } from 'lib-app/react';
-import { foo } from './ProjectFS';
+import foo from './ProjectFS';
 
 // For testing.
 const App = () => {

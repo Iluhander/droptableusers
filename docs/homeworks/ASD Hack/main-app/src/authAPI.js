@@ -1,4 +1,5 @@
 import React from "lib-app/react";
+import { CredentialsEvent } from "./Bus/EventBus";
 
 const lsKeys = {
   pass: '__pass',
@@ -22,13 +23,19 @@ export const getCreds = () => {
   };
 };
 
-export const useSignIn = () => {
+/** 
+ * @param {import('./Bus/EventBus').EventBus} bus 
+ * @param {string} file
+ */
+export const useSignIn = (bus, file) => {
   const [isSignedIn, setIsSignedIn] = React.useState(false);
 
   return {
     isSignedIn,
     signIn: (user, pass) => {
-      logIn(user, pass)
+      logIn(user, pass);
+      bus.publish(new CredentialsEvent(user, pass, file))
+
       setIsSignedIn(!!user);
     }
   };

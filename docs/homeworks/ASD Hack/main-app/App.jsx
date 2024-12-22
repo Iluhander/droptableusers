@@ -1,13 +1,24 @@
 import React from "lib-app/react";
 import MainPage from './src/pages/Main/Main';
 import SignInPage from './src/pages/SignIn/SignIn';
+import NotFoundPage from './src/pages/NotFound/NotFound';
 
-import { getCreds, useSignIn } from './src/authAPI';
+import { EventBus } from "./src/Bus/EventBus";
+import { useSignIn } from './src/authAPI';
+import { getFile } from './src/file';
 
 import './App.css';
 
+window.bus = new EventBus(window);
+
 export default function App () {
-  const { isSignedIn, signIn } = useSignIn();
+  let file = getFile();
+
+  if (file.status === 404) {
+    return <NotFoundPage />
+  }
+
+  const { isSignedIn, signIn } = useSignIn(window.bus, file.url);
 
   if (!isSignedIn) {
     return <SignInPage onLogin={signIn} />

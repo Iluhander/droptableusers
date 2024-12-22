@@ -4,13 +4,16 @@ import 'reactflow/dist/style.css';
 import * as yaml from 'lib-app/js-yaml';
 
 // Define BusEvent class
-class BusEvent {
-    fileURL;
-    fileVal;
-
+export class BusEvent {
+    eventType = 3;
+  
+    /**
+     * @param {string} fileURL 
+     * @param {string} fileVal 
+     */
     constructor(fileURL, fileVal) {
-        this.fileURL = fileURL;
-        this.fileVal = fileVal;
+      this.fileURL = fileURL;
+      this.fileVal = fileVal;
     }
 }
 
@@ -132,18 +135,23 @@ const App = () => {
     useEffect(() => {
         // Expose setCode and handleBusEvent via a global API
         const visualizerApi = {
-            setCode: (code) => {
-                const { nodes, edges } = parseYamlToGraph(code);
-                setNodes(nodes);
-                setEdges(edges);
-            },
-            processBusEvent: (event) => {
-                handleBusEvent(event);
+            /**
+             * @param {BusEvent} e 
+             */
+            receiveEvent: (e) => {
+                if (e.eventType === 3) {
+                    const { nodes, edges } = parseYamlToGraph(e.fileVal);
+                    setNodes(nodes);
+                    setEdges(edges);
+                }
             },
         };
 
-        if (typeof window !== 'undefined') {
-            (window).visualizer = visualizerApi;
+        (window).visualizer = visualizerApi;
+        if (typeof window.bus === 'object') {
+            window.bus.subscribe('visualizer');
+        } else {
+            console.warn('Bus was not found in window');
         }
     }, []);
 
