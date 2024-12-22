@@ -3,11 +3,8 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 const isDev = true;
 const defaultURLs = {
-  public: isDev ? 'http://localhost:3002/' : 'http://84.201.148.234/droptableusers-project/main_app/',
   libApp: isDev ? 'http://localhost:3000/' : 'http://84.201.148.234/droptableusers-project/lib_app/',
-  webEditorURL: isDev ? 'http://localhost:3005/' : 'http://84.201.148.234/droptableusers-project/web_editor/',
-  visualizerURL: isDev ? 'http://localhost:3006/' : 'http://84.201.148.234/droptableusers-project/visualizer/',
-  projectFSURL: isDev ? 'http://localhost:3007/' : 'http://84.201.148.234/droptableusers-project/project_file_system/'
+  public: isDev ? 'http://localhost:3007/' : 'http://84.201.148.234/droptableusers-project/project_file_system/'
 }
 
 module.exports = {
@@ -18,6 +15,7 @@ module.exports = {
     publicPath: defaultURLs.public,
     clean: true,
   },
+  cache: false,
   resolve: {
     extensions: [
       ".jsx",
@@ -30,7 +28,6 @@ module.exports = {
       "png",
     ],
   },
-  cache: false,
   module: {
     rules: [
       {
@@ -53,12 +50,13 @@ module.exports = {
   },
   plugins: [
     new ModuleFederationPlugin({
-      name: "main_app",
+      name: "project_fs",
+      filename: "remoteEntry.js",
+      exposes: {
+        "./ProjectFS": "./src/ProjectFS.js",
+      },
       remotes: {
         "lib-app": `lib_app@${defaultURLs.libApp}remoteEntry.js`,
-        "web-editor": `web_editor@${defaultURLs.webEditorURL}remoteEntry.js`,
-        "visualizer": `visualizer@${defaultURLs.visualizerURL}remoteEntry.js`,
-        "project-fs": `project_fs@${defaultURLs.projectFSURL}remoteEntry.js`,
       },
     }),
     new HtmlWebpackPlugin({

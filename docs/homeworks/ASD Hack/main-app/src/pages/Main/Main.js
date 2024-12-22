@@ -1,6 +1,7 @@
 import React from "lib-app/react";
 import WebEditor from "web-editor/WebEditor";
 import Visualizer from "visualizer/Visualizer";
+import ProjectFS from "project-fs/ProjectFS";
 
 import { EventBus, BusEvent } from '../../Bus/EventBus';
 
@@ -9,6 +10,8 @@ import './Main.css';
 const TeamName = '"; drop table users;';
 
 const bus = new EventBus();
+
+console.log(ProjectFS, 1);
 
 export default function MainPage () { 
   React.useEffect(() => {
