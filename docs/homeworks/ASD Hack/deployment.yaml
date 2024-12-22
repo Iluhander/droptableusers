@@ -14,7 +14,19 @@ spec:
         app: web-editor-for-experiments
     spec:
       containers:
-      - name: web-editor
-        image: iluhander/web-editor:latest
-        ports:
-        - containerPort: 7557
+        - name: we-lib-app
+          image: iluhander/we-lib-app:latest
+          ports:
+          - containerPort: 3000
+        - name: we-main-app
+            image: iluhander/we-main-app:latest
+            ports:
+            - containerPort: 3002
+        - name: we-web-editor
+            image: iluhander/we-web-editor:latest
+            ports:
+            - containerPort: 3005
+        - name: we-visualizer
+            image: iluhander/we-visualizer:latest
+            ports:
+            - containerPort: 3006

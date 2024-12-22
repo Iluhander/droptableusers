@@ -1,12 +1,17 @@
 const { ModuleFederationPlugin } = require("@module-federation/enhanced");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const path = require("path");
+
+const publicPath = process.env.MAIN_URL ?? 'http://localhost:3002/';
+const libAppURL = process.env.LIB_APP_URL ?? 'http://localhost:3000/';
+const webEditorURL = process.env.WEB_EDITOR_URL ?? 'http://localhost:3005/';
+const visualizerURL = process.env.VISUALIZER_URL ?? 'http://localhost:3006/';
+
 module.exports = {
   entry: "./index.js",
   mode: "development",
   devtool: "hidden-source-map",
   output: {
-    publicPath: "http://localhost:3002/",
+    publicPath,
     clean: true,
   },
   resolve: {
@@ -46,9 +51,9 @@ module.exports = {
     new ModuleFederationPlugin({
       name: "main_app",
       remotes: {
-        "lib-app": "lib_app@http://localhost:3000/remoteEntry.js",
-        "web-editor": "web_editor@http://localhost:3005/remoteEntry.js",
-        "visualizer": "visualizer@http://localhost:3006/remoteEntry.js",
+        "lib-app": `lib_app@${libAppURL}/remoteEntry.js`,
+        "web-editor": `web_editor@${webEditorURL}/remoteEntry.js`,
+        "visualizer": `visualizer@${visualizerURL}/remoteEntry.js`,
       },
     }),
     new HtmlWebpackPlugin({

@@ -3,6 +3,6 @@ import Editor from "lib-app/monaco-editor";
 
 export default function WebEditor({ onChange }) {
   return (
-    <Editor height="90vh" defaultLanguage="yaml" defaultValue="" onChange={onChange} />
+    <Editor height="100%" defaultLanguage="yaml" defaultValue="" onChange={onChange} />
   );
 }

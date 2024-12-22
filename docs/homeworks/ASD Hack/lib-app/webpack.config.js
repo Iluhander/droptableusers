@@ -1,11 +1,13 @@
 const { ModuleFederationPlugin } = require("@module-federation/enhanced");
-const path = require("path");
+
+const publicPath = process.env.LIB_APP_URL ?? 'http://localhost:3000/';
+
 module.exports = {
   entry: "./index.js",
   mode: "development",
   devtool: "hidden-source-map",
   output: {
-    publicPath: "http://localhost:3000/",
+    publicPath,
     clean: true,
   },
   cache: false,
