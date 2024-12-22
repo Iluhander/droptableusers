@@ -12,7 +12,7 @@ npm run serve
 (will start on the port 3000)
 
 ## Deployment
-Check the deployment.yaml file with the k8s deployment.
+Check the k8s directory for deployment.yaml and services.yaml files with the k8s configs.
 Specify the following env varibles (with services urls, e.g. http://198.126.40.21:3000 may be the url for the main app)
   - MAIN_URL
   - LIB_APP_URL
