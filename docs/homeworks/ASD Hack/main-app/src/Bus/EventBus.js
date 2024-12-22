@@ -1,7 +1,8 @@
 export const EEventsTypes = {
   WebEditor: 1,
   Credentials: 2,
-  Bus: 3
+  Bus: 3,
+  Save: 4
 }
 
 export class WebEditorEvent {
@@ -34,6 +35,12 @@ export class CredentialsEvent {
   }
 }
 
+export class SaveEvent {
+  eventType = EEventsTypes.Save;
+
+  constructor() {}
+}
+
 export class BusEvent {
   eventType = EEventsTypes.Bus;
 
@@ -53,7 +60,7 @@ export class EventBus {
   timeout = null;
 
   /**
-   * @param {Record<string, { receiveEvent: (e: BusEvent | CredentialsEvent | WebEditorEvent) => void}>} apiObj 
+   * @param {Record<string, { receiveEvent: (e: BusEvent | CredentialsEvent | WebEditorEvent | SaveEvent) => void}>} apiObj 
    */
   constructor(apiObj) {
     this.apiObj = apiObj;
@@ -73,10 +80,10 @@ export class EventBus {
   }
 
   /**
-   * @param {BusEvent | CredentialsEvent | WebEditorEvent} apiKey 
+   * @param {BusEvent | CredentialsEvent | WebEditorEvent | SaveEvent} apiKey 
    */
   publish(e) {
-    if (e.eventType === EEventsTypes.Bus) {
+    if (e.eventType === EEventsTypes.Bus || e.eventType === EEventsTypes.Save) {
       this.events = [e];
 
       if (this.timeout !== null) {
