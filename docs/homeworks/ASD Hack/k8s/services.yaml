@@ -1,0 +1,99 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: lib-app-service
+  namespace: droptableusers-project
+spec:
+  selector:
+    app: web-editor-for-experiments  # Matches Deployment label
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000  # we-lib-app container port
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: main-app-service
+  namespace: droptableusers-project
+spec:
+  selector:
+    app: web-editor-for-experiments
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3002  # we-main-app container port
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-editor-service
+  namespace: droptableusers-project
+spec:
+  selector:
+    app: web-editor-for-experiments
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3005  # we-web-editor container port
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: visualizer-service
+  namespace: droptableusers-project
+spec:
+  selector:
+    app: web-editor-for-experiments
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3006  # we-visualizer container port
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: app-ingress
+  namespace: droptableusers-project
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/use-regex: "true"
+spec:
+  ingressClassName: nginx
+  rules:
+    - http:
+        paths:
+          - path: /droptableusers-project/lib_app(/|$)(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: lib-app-service
+                port:
+                  number: 80
+          - path: /droptableusers-project/main_app(/|$)(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: main-app-service
+                port:
+                  number: 80
+          - path: /droptableusers-project/web_editor(/|$)(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: web-editor-service
+                port:
+                  number: 80
+          - path: /droptableusers-project/visualizer(/|$)(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: visualizer-service
+                port:
+                  number: 80
+
