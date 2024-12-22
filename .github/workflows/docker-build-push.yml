@@ -1,0 +1,75 @@
+name: Build and Push Docker Images
+
+on:
+  push:
+    branches:
+      - dev  # Trigger on push to dev branch
+  workflow_dispatch:  # Allow manual triggering
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+        with:
+          platforms: all
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      # Build and Push we-lib-app
+      - name: Build and Push we-lib-app
+        uses: docker/build-push-action@v4
+        with:
+          context: ./docs/homeworks/ASD\ Hack/lib-app
+          platforms: linux/amd64
+          push: true
+          tags: iluhander/we-lib-app:latest
+
+      # Build and Push we-main-app
+      - name: Build and Push we-main-app
+        uses: docker/build-push-action@v4
+        with:
+          context: ./docs/homeworks/ASD\ Hack/main-app
+          platforms: linux/amd64
+          push: true
+          tags: iluhander/we-main-app:latest
+
+      # Build and Push we-web-editor
+      - name: Build and Push we-web-editor
+        uses: docker/build-push-action@v4
+        with:
+          context: ./docs/homeworks/ASD\ Hack/web-editor
+          platforms: linux/amd64
+          push: true
+          tags: iluhander/we-web-editor:latest
+
+      # Build and Push we-visualizer
+      - name: Build and Push we-visualizer
+        uses: docker/build-push-action@v4
+        with:
+          context: ./docs/homeworks/ASD\ Hack/visualizer
+          platforms: linux/amd64
+          push: true
+          tags: iluhander/we-visualizer:latest
+
+      # (Optional) Build and Push project-file-system
+      # If you have a Dockerfile for project-file-system, uncomment and modify accordingly
+      # - name: Build and Push project-file-system
+      #   uses: docker/build-push-action@v4
+      #   with:
+      #     context: ./docs/homeworks/ASD\ Hack/project-file-system
+      #     platforms: linux/amd64
+      #     push: true
+      #     tags: iluhander/we-project-file-system:latest
