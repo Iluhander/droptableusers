@@ -47,7 +47,7 @@ export class EventBus {
       this.timeout = setTimeout(() => {
         for (let subscriber of this.subscribers) {
           subscriber.receive(e);
-        }   
+        }
       }, 4000);
     }
   }
