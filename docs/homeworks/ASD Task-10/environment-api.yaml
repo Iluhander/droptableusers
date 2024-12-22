@@ -68,6 +68,12 @@ components:
           type: string
         fileURLPreffix:
           type: string
+    SubscribeDto:
+      type: object
+      description: A subscription dto
+      properties:
+        windowKey:
+          type: string
 paths:
   /publish:
     post:
@@ -91,7 +97,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ExperimentDto'
+              $ref: '#/components/schemas/SubscribeDto'
       responses:
         '200':
           description: successful operation

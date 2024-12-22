@@ -1,6 +1,8 @@
 const { ModuleFederationPlugin } = require("@module-federation/enhanced");
 
-const publicPath = process.env.LIB_APP_URL ?? 'http://localhost:3000/';
+const publicPath = process.env.LIB_APP_URL ?? 'http://84.201.148.234/droptableusers-project/lib_app/';
+const webEditorURL = process.env.WEB_EDITOR_URL ?? 'http://84.201.148.234/droptableusers-project/web_editor';
+const visualizerURL = process.env.VISUALIZER_URL ?? 'http://84.201.148.234/droptableusers-project/visualizer';
 
 module.exports = {
   entry: "./index.js",

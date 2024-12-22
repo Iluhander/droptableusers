@@ -16,17 +16,45 @@ spec:
       containers:
         - name: we-lib-app
           image: iluhander/we-lib-app:latest
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "100m"
+            limits:
+              memory: "512Mi"
+              cpu: "100m"
           ports:
           - containerPort: 3000
         - name: we-main-app
-            image: iluhander/we-main-app:latest
-            ports:
+          image: iluhander/we-main-app:latest
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "100m"
+            limits:
+              memory: "512Mi"
+              cpu: "100m"
+          ports:
             - containerPort: 3002
         - name: we-web-editor
-            image: iluhander/we-web-editor:latest
-            ports:
+          image: iluhander/we-web-editor:latest
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "100m"
+            limits:
+              memory: "512Mi"
+              cpu: "100m"
+          ports:
             - containerPort: 3005
         - name: we-visualizer
-            image: iluhander/we-visualizer:latest
-            ports:
+          image: iluhander/we-visualizer:latest
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "100m"
+            limits:
+              memory: "512Mi"
+              cpu: "100m"
+          ports:
             - containerPort: 3006
