@@ -56,6 +56,8 @@ module.exports = {
         "./reactflow": "reactflow",
         "./js-yaml": "js-yaml",
         "./monaco-editor": "@monaco-editor/react",
+        "./octokit": "@octokit/rest",
+        "./buffer": "buffer",
       },
     }),
   ],
