@@ -1,7 +1,9 @@
-// Private module-level variable for credentials
+import { fetchFileContent } from './gitActions';
+
 const credentials = {
   username: '',
   token: '',
+  fileURLPrefix: '',
 };
 
 // Getter function to access credentials
@@ -9,9 +11,13 @@ export function getCredentials() {
   return { ...credentials };
 }
 
-function handleCredentials(username, token) {
+function handleCredentials(username, token, fileURLPrefix) {
   credentials.username = username;
   credentials.token = token;
+  credentials.fileURLPrefix = fileURLPrefix;
+  console.log('Credentials updated:', credentials);
+
+  fetchFileContent(credentials.token, credentials.fileURLPrefix);
 }
 
 export function SetupProjectFS() {
@@ -20,7 +26,7 @@ export function SetupProjectFS() {
   window['project-file-system'] = {
     receiveEvent: (e) => {
       if (e.eventType === 2) {
-        handleCredentials(e.username, e.password);
+        handleCredentials(e.username, e.password, e.fileURLPrefix);
       }
     }
   };

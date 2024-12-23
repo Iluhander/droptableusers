@@ -1,0 +1,9 @@
+[When a user opens an experiment file], [the editor shall open].
+
+[When a user views a code], [the editor] [shall highlight] [syntax and code errors] [in the current document].
+
+[When a user activates a GIT button], [the visualizer] [shall process] [a GIT operation] [that was specified].
+
+[When a user changes the code], [the visualizer] [shall re-generate] [a graph] [using the given code].
+
+[When a user presses a build button], [the editor] [shall start] [a build sequence] [of the current experiment file].
