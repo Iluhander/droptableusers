@@ -1,6 +1,7 @@
-import React, { useState } from 'lib-app/react';
+import React, { useState, useEffect } from 'lib-app/react';
 import { Octokit } from 'lib-app/octokit';
 import { Buffer } from 'lib-app/buffer';
+import { getCredentials } from './ProjectFS';
 import './App.css';
 
 export default function App() {
@@ -11,6 +12,19 @@ export default function App() {
   const [path, setPath] = useState('');
   const [error, setError] = useState('');
   const [sha, setSha] = useState('');
+
+  // Update credentials when they change
+  useEffect(() => {
+    const checkCredentials = () => {
+      const { username: newUsername, token: newToken } = getCredentials();
+      if (newUsername !== username) setUsername(newUsername);
+      if (newToken !== token) setToken(newToken);
+    };
+
+    checkCredentials();
+    const interval = setInterval(checkCredentials, 1000);
+    return () => clearInterval(interval);
+  }, [username, token]);
 
   const handleFileContentChange = (event) => {
     setExperimentFile(event.target.value);
@@ -76,6 +90,7 @@ export default function App() {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             placeholder="Enter GitHub username"
+            readOnly
           />
         </div>
 
@@ -87,6 +102,7 @@ export default function App() {
             value={token}
             onChange={(e) => setToken(e.target.value)}
             placeholder="Enter GitHub personal access token"
+            readOnly
           />
         </div>
 
