@@ -26,19 +26,19 @@ export class CredentialsEvent {
   /**
    * @param {string} username 
    * @param {string} password 
-   * @param {string} fileURLPreffix 
+   * @param {string} fileURLPrefix 
    */
-  constructor(username, password, fileURLPreffix) {
+  constructor(username, password, fileURLPrefix) {
     this.username = username;
     this.password = password;
-    this.fileURLPreffix = fileURLPreffix;
+    this.fileURLPrefix = fileURLPrefix;
   }
 }
 
 export class SaveEvent {
   eventType = EEventsTypes.Save;
 
-  constructor() {}
+  constructor() { }
 }
 
 export class BusEvent {
@@ -85,24 +85,22 @@ export class EventBus {
    * @param {BusEvent | CredentialsEvent | WebEditorEvent | SaveEvent} apiKey 
    */
   publish(e) {
-    if (e.eventType === EEventsTypes.Bus || e.eventType === EEventsTypes.Save) {
-      this.events = [e];
+    this.events = [e];
 
-      if (this.timeout !== null) {
-        clearTimeout(this.timeout);
-      }
-
-      this.timeout = setTimeout(() => {
-        for (let i = 0; i < this.subscribersAPIKeys.length; ++i) {
-          for (let j = 0; j < this.events.length; ++j) {
-            if (this.events[i].eventType === EEventsTypes.Bus) {
-              this.events[i].fileURL = this.fileURL;
-            }
-
-            this.apiObj[this.subscribersAPIKeys[i]].receiveEvent(this.events[i]);
-          }
-        }
-      }, 4000); // debounce
+    if (this.timeout !== null) {
+      clearTimeout(this.timeout);
     }
+
+    this.timeout = setTimeout(() => {
+      for (let i = 0; i < this.subscribersAPIKeys.length; ++i) {
+        for (let j = 0; j < this.events.length; ++j) {
+          if (this.events[i].eventType === EEventsTypes.Bus) {
+            this.events[i].fileURL = this.fileURL;
+          }
+
+          this.apiObj[this.subscribersAPIKeys[i]].receiveEvent(this.events[i]);
+        }
+      }
+    }, 4000); // debounce
   }
 }
