@@ -34,7 +34,7 @@ export const useSignIn = (bus, file) => {
     isSignedIn,
     signIn: (user, pass) => {
       logIn(user, pass);
-      bus.publish(new CredentialsEvent(user, pass, file))
+      bus.publish(new CredentialsEvent('', user, pass, file))
 
       setIsSignedIn(!!user);
     }

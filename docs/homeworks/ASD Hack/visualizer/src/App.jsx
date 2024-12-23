@@ -3,19 +3,36 @@ import ReactFlow, { Background } from 'lib-app/reactflow';
 import 'reactflow/dist/style.css';
 import * as yaml from 'lib-app/js-yaml';
 
-// Define BusEvent class
-export class BusEvent {
-    eventType = 3;
-  
+// Define the BusEvent class
+export const EEventsTypes = {
+    Bus: 3,
+}
+
+export class EEvent {
     /**
+     * @param {string} issuerAPIKey 
+     * @param {number} eventType
+     */
+    constructor(issuerAPIKey, eventType) {
+        this.issuerAPIKey = issuerAPIKey;
+        this.eventType = eventType;
+    }
+}
+export class BusEvent extends EEvent {
+    /**
+     * @param {string} issuerAPIKey
      * @param {string} fileURL 
      * @param {string} fileVal 
      */
-    constructor(fileURL, fileVal) {
-      this.fileURL = fileURL;
-      this.fileVal = fileVal;
+    constructor(issuerAPIKey, fileURL, fileVal) {
+        super(issuerAPIKey, EEventsTypes.Bus);
+
+        this.fileURL = fileURL;
+        this.fileVal = fileVal;
     }
 }
+
+const apiKey = "visualizer";
 
 const customTags = [
     '!PythonFunction',
@@ -147,9 +164,9 @@ const App = () => {
             },
         };
 
-        (window).visualizer = visualizerApi;
+        (window)[apiKey] = visualizerApi;
         if (typeof window.bus === 'object') {
-            window.bus.subscribe('visualizer');
+            window.bus.subscribe(apiKey);
         } else {
             console.warn('Bus was not found in window');
         }

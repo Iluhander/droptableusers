@@ -5,50 +5,67 @@ export const EEventsTypes = {
   Save: 4
 }
 
-export class WebEditorEvent {
-  eventType = EEventsTypes.WebEditor;
-
+export class EEvent {
   /**
+   * @param {string} issuerAPIKey 
+   * @param {number} eventType
+   */
+  constructor(issuerAPIKey, eventType) {
+    this.issuerAPIKey = issuerAPIKey;
+    this.eventType = eventType;
+  }
+}
+
+export class WebEditorEvent extends EEvent {
+  /**
+   * @param {string} issuerAPIKey
    * @param {number} lineIndex 
    * @param {number} symbIndex 
    * @param {string} symbVal 
    */
-  constructor(lineIndex, symbIndex, symbVal) {
+  constructor(issuerAPIKey, lineIndex, symbIndex, symbVal) {
+    super(issuerAPIKey, EEventsTypes.WebEditor);
+
     this.lineIndex = lineIndex;
     this.symbIndex = symbIndex;
     this.symbVal = symbVal;
   }
 }
 
-export class CredentialsEvent {
-  eventType = EEventsTypes.Credentials;
-
+export class CredentialsEvent extends EEvent {
   /**
+   * @param {string} issuerAPIKey
    * @param {string} username 
    * @param {string} password 
    * @param {string} fileURLPrefix 
    */
-  constructor(username, password, fileURLPrefix) {
+  constructor(issuerAPIKey, username, password, fileURLPrefix) {
+    super(issuerAPIKey, EEventsTypes.Credentials);
+
     this.username = username;
     this.password = password;
     this.fileURLPrefix = fileURLPrefix;
   }
 }
 
-export class SaveEvent {
-  eventType = EEventsTypes.Save;
-
-  constructor() { }
+export class SaveEvent extends EEvent {
+  /**
+   * @param {string} issuerAPIKey 
+   */
+  constructor(issuerAPIKey) {
+    super(issuerAPIKey, EEventsTypes.Save);
+  }
 }
 
-export class BusEvent {
-  eventType = EEventsTypes.Bus;
-
+export class BusEvent extends EEvent {
   /**
+   * @param {string} issuerAPIKey
    * @param {string} fileURL 
    * @param {string} fileVal 
    */
-  constructor(fileURL, fileVal) {
+  constructor(issuerAPIKey, fileURL, fileVal) {
+    super(issuerAPIKey, EEventsTypes.Bus);
+
     this.fileURL = fileURL;
     this.fileVal = fileVal;
   }
@@ -93,6 +110,10 @@ export class EventBus {
       clearTimeout(this.timeout);
     }
 
+    console.log('>> Got an event:');
+    console.log(e);
+    console.log('');
+
     this.timeout = setTimeout(() => {
       for (let i = 0; i < this.subscribersAPIKeys.length; ++i) {
         for (let j = 0; j < this.events.length; ++j) {
@@ -100,9 +121,14 @@ export class EventBus {
             this.events[j].fileURL = this.fileURL;
           }
 
-          this.apiObj[this.subscribersAPIKeys[i]].receiveEvent(this.events[j]);
+          if (this.events[j].issuerAPIKey !== this.subscribersAPIKeys[i]) {
+            console.log(`<< Sending an event of type=${this.events[j].eventType} issued by ${this.events[j].issuerAPIKey} to:`);
+            console.log(this.subscribersAPIKeys[i]);
+
+            this.apiObj[this.subscribersAPIKeys[i]].receiveEvent(this.events[j]);
+          }
         }
       }
-    }, 4000); // debounce
+    }, 2000); // debounce
   }
 }

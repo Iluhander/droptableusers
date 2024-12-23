@@ -7,8 +7,6 @@ import { EventBus } from "./src/Bus/EventBus";
 import { useSignIn } from './src/authAPI';
 import { getFile } from './src/file';
 
-import SetupProjectFS from 'project-fs/ProjectFS';
-
 import './App.css';
 
 window.bus = new EventBus(window);

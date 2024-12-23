@@ -2,6 +2,36 @@ import { Octokit } from 'lib-app/octokit';
 import { Buffer } from 'lib-app/buffer';
 import { parseGitHubFileURL } from './parseGitHubURL';
 
+export const EEventsTypes = {
+  Bus: 3,
+}
+
+export class EEvent {
+  /**
+   * @param {string} issuerAPIKey 
+   * @param {number} eventType
+   */
+  constructor(issuerAPIKey, eventType) {
+      this.issuerAPIKey = issuerAPIKey;
+      this.eventType = eventType;
+  }
+}
+export class BusEvent extends EEvent {
+  /**
+   * @param {string} issuerAPIKey
+   * @param {string} fileURL 
+   * @param {string} fileVal 
+   */
+  constructor(issuerAPIKey, fileURL, fileVal) {
+      super(issuerAPIKey, EEventsTypes.Bus);
+
+      this.fileURL = fileURL;
+      this.fileVal = fileVal;
+  }
+}
+
+const apiKey = 'project-file-system';
+
 /**
  * Fetches the content of a GitHub file using Octokit.
  * @param {string} token - GitHub Personal Access Token.
@@ -48,11 +78,7 @@ export async function fetchFileContent(token, fileURLPrefix) {
 
         function publishBusEvent(fileURL, fileVal) {
             if (window.bus && typeof window.bus.publish === 'function') {
-                window.bus.publish({
-                    eventType: 3,
-                    fileURL: fileURL,
-                    fileVal: fileVal,
-                });
+                window.bus.publish(new BusEvent(apiKey, fileURL, fileVal));
                 console.log('BusEvent published:', { fileURL, fileVal });
             } else {
                 console.error('window.bus or publish method is not defined.');

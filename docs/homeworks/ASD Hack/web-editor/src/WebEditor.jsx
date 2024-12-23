@@ -1,53 +1,61 @@
 import React from 'lib-app/react';
 import Editor from "lib-app/monaco-editor";
 
-class BusEvent {
-  eventType = 3;
+export const EEventsTypes = {
+  Bus: 3,
+}
 
+export class EEvent {
   /**
+   * @param {string} issuerAPIKey 
+   * @param {number} eventType
+   */
+  constructor(issuerAPIKey, eventType) {
+    this.issuerAPIKey = issuerAPIKey;
+    this.eventType = eventType;
+  }
+}
+export class BusEvent extends EEvent {
+  /**
+   * @param {string} issuerAPIKey
    * @param {string} fileURL 
    * @param {string} fileVal 
    */
-  constructor(fileURL, fileVal) {
+  constructor(issuerAPIKey, fileURL, fileVal) {
+    super(issuerAPIKey, EEventsTypes.Bus);
+
     this.fileURL = fileURL;
     this.fileVal = fileVal;
   }
 }
 
-
+const apiKey = "editor-api";
 
 export default function WebEditor() {
-  const [initialVal, setInitialVal] = React.useState();
+  const [curVal, setCurVal] = React.useState('');
   const [fileURL, setFileURL] = React.useState('');
 
   React.useEffect(() => {
     if (typeof window !== 'undefined') {
-      window["editor-api"] = {};
-      window["editor-api"].receiveEvent = (e) => {
+      window[apiKey] = {};
+      window[apiKey].receiveEvent = (e) => {
         if (e.eventType === 3) {
           console.log(e);
-          setInitialVal(e.fileVal);
+          setCurVal(e.fileVal);
           setFileURL(e.fileURL);
-          window["editor-api"].receiveEvent = (_) => {};
         }
       };
     }
 
-    window.bus.subscribe("editor-api");
+    window.bus.subscribe(apiKey);
   }, []);
 
   const onChange = (val) => {
-    console.log(val);
-    window.bus.publish(new BusEvent(fileURL, val));
+    setCurVal(val);
+    window.bus.publish(new BusEvent(apiKey, fileURL, val));
   };
 
-  if (!initialVal) {
-    return (
-      <Editor height="100%" defaultLanguage="yaml" defaultValue="" onChange={onChange} />
-    );
-  }
-
   return (
-    <Editor height="100%" defaultLanguage="yaml" defaultValue={initialVal} onChange={onChange} />
+    <Editor height="100%" defaultLanguage="yaml" value={curVal} onChange={onChange} />
   );
 }

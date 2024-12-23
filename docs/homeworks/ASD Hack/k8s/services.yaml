@@ -55,6 +55,20 @@ spec:
       targetPort: 3006  # we-visualizer container port
   type: ClusterIP
 ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: project-fs-service
+  namespace: droptableusers-project
+spec:
+  selector:
+    app: web-editor-for-experiments
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3007  # we-visualizer container port
+  type: ClusterIP
+---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -94,6 +108,13 @@ spec:
             backend:
               service:
                 name: visualizer-service
+                port:
+                  number: 80
+          - path: /droptableusers-project/project_file_system(/|$)(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: project-fs-service
                 port:
                   number: 80
 
