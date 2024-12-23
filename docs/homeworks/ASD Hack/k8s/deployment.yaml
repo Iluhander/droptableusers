@@ -18,10 +18,10 @@ spec:
           image: iluhander/we-lib-app:latest
           resources:
             requests:
-              memory: "512Mi"
+              memory: "256Mi"
               cpu: "100m"
             limits:
-              memory: "512Mi"
+              memory: "256Mi"
               cpu: "100m"
           ports:
           - containerPort: 3000
@@ -29,10 +29,10 @@ spec:
           image: iluhander/we-main-app:latest
           resources:
             requests:
-              memory: "512Mi"
+              memory: "256Mi"
               cpu: "100m"
             limits:
-              memory: "512Mi"
+              memory: "256Mi"
               cpu: "100m"
           ports:
             - containerPort: 3002
@@ -40,10 +40,10 @@ spec:
           image: iluhander/we-web-editor:latest
           resources:
             requests:
-              memory: "512Mi"
+              memory: "256Mi"
               cpu: "100m"
             limits:
-              memory: "512Mi"
+              memory: "256Mi"
               cpu: "100m"
           ports:
             - containerPort: 3005
@@ -51,21 +51,21 @@ spec:
           image: iluhander/we-visualizer:latest
           resources:
             requests:
-              memory: "512Mi"
+              memory: "256Mi"
               cpu: "100m"
             limits:
-              memory: "512Mi"
-              cpu: "100m"cnjg 
+              memory: "256Mi"
+              cpu: "100m"
           ports:
             - containerPort: 3006
         - name: we-project-fs
           image: iluhander/we-project-fs:latest
           resources:
             requests:
-              memory: "512Mi"
+              memory: "256Mi"
               cpu: "100m"
             limits:
-              memory: "512Mi"
+              memory: "256Mi"
               cpu: "100m"
           ports:
             - containerPort: 3007

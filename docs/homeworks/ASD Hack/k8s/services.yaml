@@ -110,7 +110,7 @@ spec:
                 name: visualizer-service
                 port:
                   number: 80
-          - path: /droptableusers-project/project_fs(/|$)(.*)
+          - path: /droptableusers-project/project_file_system(/|$)(.*)
             pathType: ImplementationSpecific
             backend:
               service:
