@@ -32,7 +32,7 @@ jobs:
       - name: Build and Push we-lib-app
         uses: docker/build-push-action@v4
         with:
-          context: ./docs/homeworks/ASD\ Hack/lib-app
+          context: docs/homeworks/ASD Hack/lib-app
           platforms: linux/amd64
           push: true
           tags: iluhander/we-lib-app:latest
@@ -41,7 +41,7 @@ jobs:
       - name: Build and Push we-main-app
         uses: docker/build-push-action@v4
         with:
-          context: ./docs/homeworks/ASD\ Hack/main-app
+          context: docs/homeworks/ASD Hack/main-app
           platforms: linux/amd64
           push: true
           tags: iluhander/we-main-app:latest
@@ -50,7 +50,7 @@ jobs:
       - name: Build and Push we-web-editor
         uses: docker/build-push-action@v4
         with:
-          context: ./docs/homeworks/ASD\ Hack/web-editor
+          context: docs/homeworks/ASD Hack/web-editor
           platforms: linux/amd64
           push: true
           tags: iluhander/we-web-editor:latest
@@ -59,17 +59,17 @@ jobs:
       - name: Build and Push we-visualizer
         uses: docker/build-push-action@v4
         with:
-          context: ./docs/homeworks/ASD\ Hack/visualizer
+          context: docs/homeworks/ASD Hack/visualizer
           platforms: linux/amd64
           push: true
           tags: iluhander/we-visualizer:latest
 
       # (Optional) Build and Push project-file-system
       # If you have a Dockerfile for project-file-system, uncomment and modify accordingly
-      # - name: Build and Push project-file-system
-      #   uses: docker/build-push-action@v4
-      #   with:
-      #     context: ./docs/homeworks/ASD\ Hack/project-file-system
-      #     platforms: linux/amd64
-      #     push: true
-      #     tags: iluhander/we-project-file-system:latest
+      - name: Build and Push project-file-system
+        uses: docker/build-push-action@v4
+        with:
+          context: docs/homeworks/ASD Hack/project-file-system
+          platforms: linux/amd64
+          push: true
+          tags: iluhander/we-project-fs:latest
