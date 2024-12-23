@@ -33,6 +33,15 @@ function handleCredentials(username, token, fileURLPrefix) {
     });
 }
 
+function handleFileChanges(fileURLPrefix, fileContents) {
+  // if (fileURLPrefix !== credentials.fileURLPrefix) {
+    // return;
+  // }
+
+  console.log('File updated:', fileContents);
+  fileContent = fileContents;
+}
+
 function handleSaveChanges() {
   if (!credentials.token || !credentials.fileURLPrefix) {
     console.error('Missing credentials. Cannot save changes.');
@@ -61,6 +70,9 @@ export default function SetupProjectFS() {
     receiveEvent: (e) => {
       if (e.eventType === 2) {
         handleCredentials(e.username, e.password, e.fileURLPrefix);
+      }
+      if (e.eventType === 3) {
+        handleFileChanges(e.fileURL, e.fileVal);
       }
       if (e.eventType === 4) {
         handleSaveChanges();
