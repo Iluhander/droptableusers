@@ -58,3 +58,14 @@ spec:
               cpu: "100m"
           ports:
             - containerPort: 3006
+        - name: we-project-fs
+          image: iluhander/we-project-fs:latest
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "100m"
+            limits:
+              memory: "512Mi"
+              cpu: "100m"
+          ports:
+            - containerPort: 3007
