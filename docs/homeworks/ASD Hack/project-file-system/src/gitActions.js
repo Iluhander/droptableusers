@@ -63,8 +63,64 @@ export async function fetchFileContent(token, fileURLPrefix) {
 
         // Optionally, publish another event with the file content
         // publishBusEvent(fileURLPrefix, content);
-
+        return content;
     } catch (err) {
         console.error('Failed to fetch file content:', err.message);
+        throw err;
     }
 }
+
+/**
+ * Saves changes to a GitHub file.
+ * @param {string} token - GitHub Personal Access Token.
+ * @param {string} fileURLPrefix - GitHub file URL.
+ * @param {string} fileVal - New content to save.
+ * @returns {Promise<void>}
+ */
+export async function saveChanges(token, fileURLPrefix, fileVal) {
+    try {
+      const parsed = parseGitHubFileURL(fileURLPrefix);
+      if (!parsed) {
+        throw new Error('Invalid GitHub file URL.');
+      }
+  
+      const { owner, repo, branch, path } = parsed;
+  
+      const octokit = new Octokit({ auth: token });
+  
+      // Get the current file SHA (required for updating)
+      let sha = null;
+      try {
+        const getResponse = await octokit.rest.repos.getContent({
+          owner,
+          repo,
+          path,
+          ref: branch,
+        });
+        if (getResponse.data.type === 'file') {
+          sha = getResponse.data.sha;
+        }
+      } catch (err) {
+        if (err.status !== 404) {
+          throw err; // Rethrow if error is not 404
+        }
+        // File does not exist; it will be created
+      }
+  
+      // Create or update the file
+      await octokit.rest.repos.createOrUpdateFileContents({
+        owner,
+        repo,
+        path,
+        message: `Update ${path}`,
+        content: Buffer.from(fileVal, 'utf-8').toString('base64'),
+        sha, // undefined if creating a new file
+        branch,
+      });
+  
+      console.log(`File ${path} has been saved successfully.`);
+    } catch (error) {
+      console.error('Error saving file:', error.message);
+      throw error;
+    }
+  }
