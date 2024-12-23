@@ -58,9 +58,11 @@ export class EventBus {
   events = [];
   subscribersAPIKeys = [];
   timeout = null;
+  fileURL = '';
 
   /**
-   * @param {Record<string, { receiveEvent: (e: BusEvent | CredentialsEvent | WebEditorEvent | SaveEvent) => void}>} apiObj 
+   * @param {Record<string, { receiveEvent: (e: BusEvent | CredentialsEvent | WebEditorEvent | SaveEvent) => void}>} apiObj
+   * @param {string} fileURL
    */
   constructor(apiObj) {
     this.apiObj = apiObj;
@@ -93,6 +95,10 @@ export class EventBus {
       this.timeout = setTimeout(() => {
         for (let i = 0; i < this.subscribersAPIKeys.length; ++i) {
           for (let j = 0; j < this.events.length; ++j) {
+            if (this.events[i].eventType === EEventsTypes.Bus) {
+              this.events[i].fileURL = this.fileURL;
+            }
+
             this.apiObj[this.subscribersAPIKeys[i]].receiveEvent(this.events[i]);
           }
         }

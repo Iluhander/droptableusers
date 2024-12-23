@@ -18,6 +18,8 @@ export default function App () {
     return <NotFoundPage />
   }
 
+  window.bus.fileURL = file.url;
+
   const { isSignedIn, signIn } = useSignIn(window.bus, file.url);
 
   if (!isSignedIn) {
