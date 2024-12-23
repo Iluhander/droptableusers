@@ -78,6 +78,7 @@ export class EventBus {
    * @param {string} apiKey 
    */
   subscribe(apiKey) {
+    console.log(apiKey);
     if (this.subscribersAPIKeys.indexOf(apiKey) === -1) {
       this.subscribersAPIKeys.push(apiKey);
     }
@@ -88,22 +89,6 @@ export class EventBus {
    */
   publish(e) {
     this.events = [e];
-
-      if (this.timeout !== null) {
-        clearTimeout(this.timeout);
-      }
-
-      this.timeout = setTimeout(() => {
-        for (let i = 0; i < this.subscribersAPIKeys.length; ++i) {
-          for (let j = 0; j < this.events.length; ++j) {
-            if (this.events[j].eventType === EEventsTypes.Bus) {
-              this.events[j].fileURL = this.fileURL;
-            }
-
-            this.apiObj[this.subscribersAPIKeys[i]].receiveEvent(this.events[j]);
-          }
-        }
-      }, 4000); // debounce
     if (this.timeout !== null) {
       clearTimeout(this.timeout);
     }
@@ -111,11 +96,11 @@ export class EventBus {
     this.timeout = setTimeout(() => {
       for (let i = 0; i < this.subscribersAPIKeys.length; ++i) {
         for (let j = 0; j < this.events.length; ++j) {
-          if (this.events[i].eventType === EEventsTypes.Bus) {
-            this.events[i].fileURL = this.fileURL;
+          if (this.events[j].eventType === EEventsTypes.Bus) {
+            this.events[j].fileURL = this.fileURL;
           }
 
-          this.apiObj[this.subscribersAPIKeys[i]].receiveEvent(this.events[i]);
+          this.apiObj[this.subscribersAPIKeys[i]].receiveEvent(this.events[j]);
         }
       }
     }, 4000); // debounce

@@ -20,7 +20,7 @@ function handleCredentials(username, token, fileURLPrefix) {
   fetchFileContent(credentials.token, credentials.fileURLPrefix);
 }
 
-export function SetupProjectFS() {
+export default function SetupProjectFS() {
   window.bus.subscribe('project-file-system');
 
   window['project-file-system'] = {
