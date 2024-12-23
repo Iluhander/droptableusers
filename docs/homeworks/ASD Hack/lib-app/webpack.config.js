@@ -22,8 +22,8 @@ module.exports = {
       ".css",
       ".scss",
       ".jpg",
-      "jpeg",
-      "png",
+      ".jpeg",
+      ".png",
     ],
   },
   module: {

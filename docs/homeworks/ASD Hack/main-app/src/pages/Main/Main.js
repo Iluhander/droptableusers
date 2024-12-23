@@ -1,8 +1,9 @@
 import React from "lib-app/react";
 import WebEditor from "web-editor/WebEditor";
 import Visualizer from "visualizer/Visualizer";
+import ProjectFS from "project-fs/ProjectFS";
 
-import { BusEvent } from '../../Bus/EventBus';
+console.log(ProjectFS);
 
 import './Main.css';
 
